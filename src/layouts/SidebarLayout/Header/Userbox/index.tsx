@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useRouter } from 'next/router'
 
 import NextLink from 'next/link';
 
@@ -64,10 +65,10 @@ function HeaderUserbox() {
     avatar: '/static/images/avatars/1.jpg',
     jobtitle: 'Project Manager'
   };
-
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
 
+  const router = useRouter();
   const handleOpen = (): void => {
     setOpen(true);
   };
@@ -75,6 +76,11 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+  
+  const logout = (): void => {
+    localStorage.removeItem('token');
+    router.push('/login');
+  }
 
   return (
     <>
@@ -137,7 +143,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" onClick={logout} fullWidth>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>

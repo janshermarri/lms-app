@@ -4,10 +4,10 @@ const redirects = {
   async redirects() {
     return [
       {
-        source: '/dashboards',
+        source: '/',
         destination: '/dashboards/tasks',
         permanent: true
-      }
+      },
     ];
   }
 };
