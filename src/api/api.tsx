@@ -17,14 +17,15 @@ export const login = async (username: string, password: string) => {
         });
 }
 
-export const getProjects = async () => {
-    axios.post('http://127.0.0.1:8000/api/projects/', {}, {
+export const getTeachers = async () => {
+    return axios.get('http://127.0.0.1:8000/api/teachers/', {
         headers: { 
         'Authorization': localStorage.getItem('token'),
      },
     }).then(
         function (response) {
             console.log("resp", response);
+            return response.data;
         }
     )
         .catch(function (error) {
