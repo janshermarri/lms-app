@@ -16,18 +16,18 @@ import {
 
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { getTeachers } from 'src/api/api';
+import { getStudents } from 'src/api/api';
 
 
-const TeachersTable = () => {
-    const [teachers, setTeachers] = useState<any>([]);
+
+const StudentsTable = () => {
+    const [students, setStudents] = useState<any>([]);
 
     useEffect(() => {
-        getTeachers().then((data) => {
-            setTeachers(data);
+        getStudents().then((data) => {
+            setStudents(data);
         })
     }, []);
-
 
     const theme = useTheme();
     return (
@@ -41,16 +41,16 @@ const TeachersTable = () => {
                             <TableCell>Email</TableCell>
                             <TableCell>Address</TableCell>
                             <TableCell>Contact</TableCell>
-                            <TableCell>Qualifications</TableCell>
+                            <TableCell>Guardian</TableCell>
                             <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {teachers.map((teacher) => {
+                        {students.map((student) => {
                             return (
                                 <TableRow
                                     hover
-                                    key={teacher.user.id}
+                                    key={student.user.id}
                                 >
                                     <TableCell>
                                         <Typography
@@ -60,7 +60,7 @@ const TeachersTable = () => {
                                             gutterBottom
                                             noWrap
                                         >
-                                            {teacher.user.first_name} {teacher.user.last_name} 
+                                            {student.user.first_name} {student.user.last_name}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -71,7 +71,7 @@ const TeachersTable = () => {
                                             gutterBottom
                                             noWrap
                                         >
-                                            {teacher.user.email}
+                                            {student.user.email}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -82,7 +82,7 @@ const TeachersTable = () => {
                                             gutterBottom
                                             noWrap
                                         >
-                                            {teacher.address}
+                                            {student.address}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -93,7 +93,7 @@ const TeachersTable = () => {
                                             gutterBottom
                                             noWrap
                                         >
-                                            {teacher.contact}
+                                            {student.contact}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -104,7 +104,7 @@ const TeachersTable = () => {
                                             gutterBottom
                                             noWrap
                                         >
-                                            {teacher.qualifications}
+                                            {student.guardian}
                                         </Typography>
                                     </TableCell>
                                     <TableCell align="right">
@@ -146,4 +146,4 @@ const TeachersTable = () => {
     );
 };
 
-export default TeachersTable;
+export default StudentsTable;

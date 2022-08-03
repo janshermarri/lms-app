@@ -1,20 +1,36 @@
 import Head from 'next/head';
 import SidebarLayout from '@/layouts/SidebarLayout';
-import PageHeader from '@/content/Management/Transactions/PageHeader';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
-import { Grid, Container } from '@mui/material';
+import { Grid, Container, Button, Typography } from '@mui/material';
 import Footer from '@/components/Footer';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
-import RecentOrders from '@/content/Management/Transactions/RecentOrders';
+import StudentsTable from '@/content/Students/StudentsTable';
 
-function ApplicationsTransactions() {
+function StudentsListing() {
   return (
     <>
       <Head>
-        <title>Transactions - Applications</title>
+        <title>Teachers</title>
       </Head>
       <PageTitleWrapper>
-        <PageHeader />
+      <Grid container justifyContent="space-between" alignItems="center">
+      <Grid item>
+        <Typography variant="h3" component="h3" gutterBottom>
+          Students
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Button
+          sx={{ mt: { xs: 2, md: 0 } }}
+          variant="contained"
+          startIcon={<AddTwoToneIcon fontSize="small" />}
+        >
+          Add new student
+        </Button>
+      </Grid>
+    </Grid>
+
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -25,7 +41,7 @@ function ApplicationsTransactions() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <RecentOrders />
+            <StudentsTable />
           </Grid>
         </Grid>
       </Container>
@@ -34,8 +50,8 @@ function ApplicationsTransactions() {
   );
 }
 
-ApplicationsTransactions.getLayout = (page) => (
+StudentsListing.getLayout = (page) => (
   <SidebarLayout>{page}</SidebarLayout>
 );
 
-export default ApplicationsTransactions;
+export default StudentsListing;
