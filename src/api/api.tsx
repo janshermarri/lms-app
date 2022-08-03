@@ -30,6 +30,7 @@ export const getTeachers = async () => {
     )
         .catch(function (error) {
             console.log(error);
+            return error;
         });
 }
 
@@ -45,5 +46,6 @@ export const getStudents = async () => {
     )
         .catch(function (error) {
             console.log(error);
+            return error;
         });
 }

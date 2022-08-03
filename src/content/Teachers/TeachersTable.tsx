@@ -25,6 +25,8 @@ const TeachersTable = () => {
     useEffect(() => {
         getTeachers().then((data) => {
             setTeachers(data);
+        }).catch(err => {
+            console.log("err", err);
         })
     }, []);
 
