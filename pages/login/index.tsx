@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { login } from 'src/api/api';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

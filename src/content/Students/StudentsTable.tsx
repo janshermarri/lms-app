@@ -19,7 +19,6 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { getStudents } from 'src/api/api';
 
 
-
 const StudentsTable = () => {
     const [students, setStudents] = useState<any>([]);
 
@@ -31,6 +30,7 @@ const StudentsTable = () => {
 
     const theme = useTheme();
     return (
+        <>
         <Card>
             <Divider />
             <TableContainer>
@@ -143,6 +143,7 @@ const StudentsTable = () => {
                 </Table>
             </TableContainer>
         </Card>
+        </>
     );
 };
 

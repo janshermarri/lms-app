@@ -34,6 +34,23 @@ export const getTeachers = async () => {
         });
 }
 
+export const createNewTeacher = async (values) => {
+    return axios.post('http://127.0.0.1:8000/api/teachers/', values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response.data;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
 export const getStudents = async () => {
     return axios.get('http://127.0.0.1:8000/api/students/', {
         headers: { 

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import SidebarLayout from '@/layouts/SidebarLayout';
 import PageHeader from '@/content/Management/Transactions/PageHeader';
@@ -7,8 +8,19 @@ import Footer from '@/components/Footer';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import TeachersTable from '@/content/Teachers/TeachersTable';
+import NewTeacherDialog from 'src/content/Teachers/NewTeacher';
 
 function TeachersListing() {
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <>
       <Head>
@@ -26,6 +38,7 @@ function TeachersListing() {
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
           startIcon={<AddTwoToneIcon fontSize="small" />}
+          onClick={handleDialogOpen}
         >
           Add new teacher
         </Button>
@@ -43,6 +56,7 @@ function TeachersListing() {
         >
           <Grid item xs={12}>
             <TeachersTable />
+            <NewTeacherDialog openDialog={openDialog} closeDialog={handleDialogClose} />
           </Grid>
         </Grid>
       </Container>
