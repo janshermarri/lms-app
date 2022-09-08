@@ -16,10 +16,11 @@ import {
 
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { getTeachers } from 'src/api/api';
+import { getTeachers, deleteTeacher } from 'src/api/api';
+import { successToast, errorToast } from 'src/common/utils';
 
 
-const TeachersTable = () => {
+const TeachersTable = ({ openDialog, editableTeacherValues }) => {
     const [teachers, setTeachers] = useState<any>([]);
 
     useEffect(() => {
@@ -30,6 +31,28 @@ const TeachersTable = () => {
         })
     }, []);
 
+    const handleDeleteTeacher = (teacherId) => {
+        console.log("deleteTeacher", teacherId);
+        deleteTeacher(teacherId).then(resp => {
+            if (resp.status === 200) {
+                console.log('closing dialog');
+                successToast('Deleted teacher successfully');
+            }
+            else {
+                errorToast('Error deleting teacher, try again!');
+            }
+
+        }).catch(err => {
+            console.log(err);
+            errorToast('Error deleting teacher, try again!');
+        })
+    }
+
+    const handleEditTeacher = (teacher) => {
+        console.log('Editing teacher', teacher);
+        editableTeacherValues(teacher);
+        openDialog(true);
+    }
 
     const theme = useTheme();
     return (
@@ -120,6 +143,7 @@ const TeachersTable = () => {
                                                 }}
                                                 color="inherit"
                                                 size="small"
+                                                onClick={() => handleEditTeacher(teacher)}
                                             >
                                                 <EditTwoToneIcon fontSize="small" />
                                             </IconButton>
@@ -132,8 +156,9 @@ const TeachersTable = () => {
                                                 }}
                                                 color="inherit"
                                                 size="small"
+                                                onClick={() => handleDeleteTeacher(teacher.user.id)}
                                             >
-                                                <DeleteTwoToneIcon fontSize="small" />
+                                                <DeleteTwoToneIcon fontSize="small"/>
                                             </IconButton>
                                         </Tooltip>
                                     </TableCell>

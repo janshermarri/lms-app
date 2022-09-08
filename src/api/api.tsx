@@ -42,7 +42,7 @@ export const createNewTeacher = async (values) => {
     }).then(
         function (response) {
             console.log("resp", response);
-            return response.data;
+            return response;
         }
     )
         .catch(function (error) {
@@ -50,6 +50,41 @@ export const createNewTeacher = async (values) => {
             return error;
         });
 }
+
+export const deleteTeacher = async (teacherId) => {
+    return axios.delete(`http://127.0.0.1:8000/api/teachers/${teacherId}/`, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+export const editTeacher = async (values) => {
+    return axios.put(`http://127.0.0.1:8000/api/teachers/${values.id}/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
 
 export const getStudents = async () => {
     return axios.get('http://127.0.0.1:8000/api/students/', {

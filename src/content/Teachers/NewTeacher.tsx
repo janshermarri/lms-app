@@ -13,59 +13,90 @@ import {
 import Box from '@mui/material/Box';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { createNewTeacher } from 'src/api/api';
+import { createNewTeacher, editTeacher } from 'src/api/api';
 import 'react-toastify/dist/ReactToastify.css';
 
-const validationSchema = yup.object({
-    username: yup.string().max(15, 'Username cant be greater than 15 characters').required('Username is required'),
-    password: yup
-        .string()
-        .min(8, 'Password should be of minimum 8 characters length')
-        .required('Password is required'),
-    first_name: yup.string().max(15, 'First name cant be greater than 15 characters').required('First name is required'),
-    last_name: yup.string().max(15, 'Last name cant be greater than 15 characters').required('Last name is required'),
-    email: yup
-        .string()
-        .email('Enter a valid email')
-        .required('Email is required'),
-    address: yup.string().max(150, 'Address cant be greater than 150 characters').required('Address is required'),
-    contact: yup.string().max(20, 'Contact cant be greater than 20 characters').required('Contact is required'),
-    qualifications: yup.string().max(20, 'Qualilifications cant be greater than 100 characters'),
 
-});
+export default function NewTeacherDialog({ openDialog, closeDialog, showStatus, editable, editableTeacherValues }) {
+    const validationSchema = yup.object({
+        username: yup.string().max(15, 'Username cant be greater than 15 characters').required('Username is required'),
+        password: editable ? yup
+            .string() : yup
+                .string()
+                .min(8, 'Password should be of minimum 8 characters length')
+                .required('Password is required'),
+        first_name: yup.string().max(15, 'First name cant be greater than 15 characters').required('First name is required'),
+        last_name: yup.string().max(15, 'Last name cant be greater than 15 characters').required('Last name is required'),
+        email: yup
+            .string()
+            .email('Enter a valid email')
+            .required('Email is required'),
+        address: yup.string().max(150, 'Address cant be greater than 150 characters').required('Address is required'),
+        contact: yup.string().max(20, 'Contact cant be greater than 20 characters').required('Contact is required'),
+        qualifications: yup.string().max(20, 'Qualilifications cant be greater than 100 characters'),
 
-export default function NewTeacherDialog({ openDialog, closeDialog }) {
+    });
+
     const formik = useFormik({
         initialValues: {
-            username: '',
+            id: '',
+            username: editable ? editableTeacherValues.user.username : '',
             password: '',
-            first_name: '',
-            last_name: '',
-            email: '',
-            address: '',
-            contact: '',
-            qualifications: '',
+            first_name: editable ? editableTeacherValues.user.first_name : '',
+            last_name: editable ? editableTeacherValues.user.last_name : '',
+            email: editable ? editableTeacherValues.user.email : '',
+            address: editable ? editableTeacherValues.address : '',
+            contact: editable ? editableTeacherValues.contact : '',
+            qualifications: editable ? editableTeacherValues.qualifications : '',
         },
+        enableReinitialize: true,
         validationSchema: validationSchema,
         onSubmit: (values) => {
             console.log(values);
-            createNewTeacher(values).then(resp => {
-                console.log(resp);
-                if (resp.status === 200) {
-                }
-                else {
-                }
+            if (editable) {
+                values.id = editableTeacherValues.id;
+                editTeacher(values).then(resp => {
+                    console.log(resp);
+                    if (resp.status === 200) {
+                        console.log('closing dialog');
+                        closeDialog();
+                        showStatus('success');
+                    }
+                    else {
+                        closeDialog();
+                        showStatus('error');
+                    }
 
-            }).catch(error => {
-                console.log(error);
-            })
+                }).catch(error => {
+                    console.log(error);
+                })
+
+            }
+            else {
+                createNewTeacher(values).then(resp => {
+                    console.log(resp);
+                    if (resp.status === 200) {
+                        console.log('closing dialog');
+                        closeDialog();
+                        showStatus('success');
+                    }
+                    else {
+                        closeDialog();
+                        showStatus('error');
+                    }
+
+                }).catch(error => {
+                    console.log(error);
+                })
+
+            }
         },
     });
     return (
         <>
             <div>
                 <Dialog maxWidth={'md'} open={openDialog} onClose={closeDialog}>
-                    <DialogTitle>New Teacher</DialogTitle>
+                    <DialogTitle>{editable ? 'Edit Teacher' : 'New Teacher'}</DialogTitle>
                     <DialogContent>
                         <Grid
                             container
@@ -78,7 +109,6 @@ export default function NewTeacherDialog({ openDialog, closeDialog }) {
                                 <Card>
                                     <CardContent>
                                         <Box
-                                            component="form"
                                             sx={{
                                                 '& .MuiTextField-root': { m: 1, width: '25ch' }
                                             }}
