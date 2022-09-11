@@ -1,5 +1,4 @@
 import {
-    Avatar,
     Box,
     Button,
     Card,
@@ -8,7 +7,6 @@ import {
     styled,
     TextField,
     CircularProgress,
-    Link,
 } from '@mui/material';
 import Logo from 'src/components/LogoSign';
 import * as Yup from 'yup';
