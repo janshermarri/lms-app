@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import SidebarLayout from '@/layouts/SidebarLayout';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
@@ -8,7 +8,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import TeachersTable from '@/content/Teachers/TeachersTable';
 import NewTeacherDialog from 'src/content/Teachers/NewTeacher';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { successToast, errorToast } from 'src/common/utils';
 
