@@ -123,7 +123,7 @@ function DashboardTasks() {
   return (
     <>
       <Head>
-        <title>Tasks Dashboard</title>
+        <title>LMS Dashboard</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />

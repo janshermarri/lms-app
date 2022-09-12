@@ -71,7 +71,7 @@ const TeachersTable = ({ openDialog, editableTeacherValues }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {teachers.map((teacher) => {
+                        {teachers.length > 0 && teachers.map((teacher) => {
                             return (
                                 <TableRow
                                     hover

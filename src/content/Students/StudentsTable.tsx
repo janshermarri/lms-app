@@ -46,7 +46,7 @@ const StudentsTable = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {students.map((student) => {
+                        {students.length > 0 && students.map((student) => {
                             return (
                                 <TableRow
                                     hover
