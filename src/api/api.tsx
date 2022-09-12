@@ -1,11 +1,12 @@
 import axios from 'axios';
 
+const API_URL = 'https://lms-main.herokuapp.com/api'
 export const login = async (username: string, password: string) => {
     const payload = {
         username,
         password
     }
-    return axios.post('http://127.0.0.1:8000/api/token/', payload).then(
+    return axios.post(`${API_URL}/token/`, payload).then(
         function (response) {
             localStorage.setItem('token', `Bearer ${response.data.access}`);
             return response;
@@ -18,7 +19,7 @@ export const login = async (username: string, password: string) => {
 }
 
 export const getTeachers = async () => {
-    return axios.get('http://127.0.0.1:8000/api/teachers/', {
+    return axios.get(`${API_URL}/teachers/`, {
         headers: { 
         'Authorization': localStorage.getItem('token'),
      },
@@ -35,7 +36,7 @@ export const getTeachers = async () => {
 }
 
 export const createNewTeacher = async (values) => {
-    return axios.post('http://127.0.0.1:8000/api/teachers/', values, {
+    return axios.post(`${API_URL}/teachers/`, values, {
         headers: { 
         'Authorization': localStorage.getItem('token'),
      },
@@ -52,7 +53,7 @@ export const createNewTeacher = async (values) => {
 }
 
 export const deleteTeacher = async (teacherId) => {
-    return axios.delete(`http://127.0.0.1:8000/api/teachers/${teacherId}/`, {
+    return axios.delete(`${API_URL}/teachers/${teacherId}/`, {
         headers: { 
         'Authorization': localStorage.getItem('token'),
      },
@@ -69,7 +70,7 @@ export const deleteTeacher = async (teacherId) => {
 }
 
 export const editTeacher = async (values) => {
-    return axios.put(`http://127.0.0.1:8000/api/teachers/${values.id}/`, values, {
+    return axios.put(`${API_URL}/teachers/${values.id}/`, values, {
         headers: { 
         'Authorization': localStorage.getItem('token'),
      },
@@ -87,7 +88,7 @@ export const editTeacher = async (values) => {
 
 
 export const getStudents = async () => {
-    return axios.get('http://127.0.0.1:8000/api/students/', {
+    return axios.get(`${API_URL}/students/`, {
         headers: { 
         'Authorization': localStorage.getItem('token'),
      },
