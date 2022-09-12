@@ -94,7 +94,6 @@ function LoginBasic() {
                                 onSubmit={async (
                                     values,): Promise<void> => {
                                     try {
-                                        console.log(values);
                                         login(values.username, values.password).then((resp) => {
                                             console.log("resp", resp);
                                             if (resp.status === 200) {

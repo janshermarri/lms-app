@@ -16,13 +16,18 @@ import {
 
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { getStudents } from 'src/api/api';
+import { getStudents, isUserValid } from 'src/api/api';
+import { useRouter } from 'next/router';
 
 
 const StudentsTable = () => {
     const [students, setStudents] = useState<any>([]);
+    const router = useRouter();
 
     useEffect(() => {
+        if (!isUserValid()) {
+            router.push('/login');
+          }        
         getStudents().then((data) => {
             setStudents(data);
         })

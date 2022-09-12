@@ -16,14 +16,19 @@ import {
 
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { getTeachers, deleteTeacher } from 'src/api/api';
+import { getTeachers, deleteTeacher, isUserValid } from 'src/api/api';
 import { successToast, errorToast } from 'src/common/utils';
+import { useRouter } from 'next/router';
 
 
 const TeachersTable = ({ openDialog, editableTeacherValues }) => {
     const [teachers, setTeachers] = useState<any>([]);
+    const router = useRouter();
 
     useEffect(() => {
+        if (!isUserValid()) {
+            router.push('/login');
+        }
         getTeachers().then((data) => {
             setTeachers(data);
         }).catch(err => {
@@ -85,7 +90,7 @@ const TeachersTable = ({ openDialog, editableTeacherValues }) => {
                                             gutterBottom
                                             noWrap
                                         >
-                                            {teacher.user.first_name} {teacher.user.last_name} 
+                                            {teacher.user.first_name} {teacher.user.last_name}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
@@ -158,7 +163,7 @@ const TeachersTable = ({ openDialog, editableTeacherValues }) => {
                                                 size="small"
                                                 onClick={() => handleDeleteTeacher(teacher.user.id)}
                                             >
-                                                <DeleteTwoToneIcon fontSize="small"/>
+                                                <DeleteTwoToneIcon fontSize="small" />
                                             </IconButton>
                                         </Tooltip>
                                     </TableCell>

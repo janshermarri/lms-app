@@ -102,3 +102,9 @@ export const getStudents = async () => {
             return error;
         });
 }
+
+export const isUserValid = () => {
+    console.log('isUserValid');
+    console.log(localStorage.getItem('token'), localStorage.getItem('token') !== null);
+    return localStorage.getItem('token') !== null
+}
