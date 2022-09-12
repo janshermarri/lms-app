@@ -1,5 +1,5 @@
 {
-  "name": "tokyo-free-black-nextjs-admin-dashboard",
+  "name": "lms-app",
   "version": "1.0.0",
   "title": "LMS",
   "description": "Learning Management System",
@@ -49,7 +49,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "start": "next start",
     "export": "next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix",
