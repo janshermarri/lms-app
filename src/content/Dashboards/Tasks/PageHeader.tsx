@@ -48,23 +48,11 @@ function PageHeader() {
       justifyContent="space-between"
     >
       <Box display="flex" alignItems="center">
-        <AvatarPageTitle variant="rounded">
-          <AddAlertTwoToneIcon fontSize="large" />
-        </AvatarPageTitle>
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
-            Welcome, {user.name}!
-          </Typography>
-          <Typography variant="subtitle2">
-            Manage your day to day tasks with style! Enjoy a well built UI
-            system.
+            Welcome to the LMS!
           </Typography>
         </Box>
-      </Box>
-      <Box mt={{ xs: 3, md: 0 }}>
-        <Button variant="contained" startIcon={<DocumentScannerTwoToneIcon />}>
-          Export
-        </Button>
       </Box>
     </Box>
   );

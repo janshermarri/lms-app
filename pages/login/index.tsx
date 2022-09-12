@@ -107,7 +107,7 @@ function LoginBasic() {
                                                     draggable: true,
                                                     progress: undefined,
                                                     });
-                                                router.push('/dashboards/tasks');
+                                                router.push('/');
                                             }
                                             else {
                                                 toast.error("Unable to login, try again.", {

@@ -61,9 +61,9 @@ const UserBoxDescription = styled(Typography)(
 
 function HeaderUserbox() {
   const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
+    name: 'Admin',
+    avatar: '/static/images/avatars/3.jpg',
+    jobtitle: 'Administrator',
   };
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
