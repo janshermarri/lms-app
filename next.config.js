@@ -5,7 +5,7 @@ const redirects = {
     return [
       {
         source: '/',
-        destination: '/dashboards/tasks',
+        destination: '/',
         permanent: true
       },
     ];
