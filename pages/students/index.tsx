@@ -8,17 +8,41 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import StudentsTable from '@/content/Students/StudentsTable';
 import NewStudentDialog from 'src/content/Students/NewStudent';
+import { successToast, errorToast } from 'src/common/utils';
+
+interface StudentProps {
+  user: {};
+  address: string;
+  contact: string;
+  guardian: string;
+}
+
 
 function StudentsListing() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [editStudent, setEditStudent] = useState<boolean>(false);
+  const [editableStudentValues, setEditableStudentValues] = useState<StudentProps[]>([]);
 
-  const handleDialogOpen = () => {
+
+  const handleDialogOpen = (editable: boolean = false) => {
     setOpenDialog(true);
+    setEditStudent(editable);
+
   };
 
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
+
+  const handleShowStatus = (status) => {
+    if (status === "success") {
+      successToast('Created new record successfully!') 
+    }
+    else {
+      errorToast('Error creating a new record, try again!');
+    } 
+  }
+
 
   return (
     <>
@@ -37,7 +61,7 @@ function StudentsListing() {
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
               startIcon={<AddTwoToneIcon fontSize="small" />}
-              onClick={handleDialogOpen}
+              onClick={() => handleDialogOpen(false)}
             >
               Add new student
             </Button>
@@ -54,8 +78,9 @@ function StudentsListing() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <StudentsTable />
-            <NewStudentDialog openDialog={openDialog} closeDialog={handleDialogClose} />
+            <StudentsTable openDialog={handleDialogOpen} editableStudentValues={(values) => setEditableStudentValues(values)} />
+            <NewStudentDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} editable={editStudent} editableStudentValues={editableStudentValues} />
+
           </Grid>
         </Grid>
       </Container>

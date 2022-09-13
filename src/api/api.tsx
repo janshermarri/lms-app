@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'https://lms-main.herokuapp.com/api'
+const API_URL = 'https://lms-main.herokuapp.com/api';
+// const API_URL = 'http://localhost:8000/api';
 export const login = async (username: string, password: string) => {
     const payload = {
         username,
@@ -102,6 +103,59 @@ export const getStudents = async () => {
             return error;
         });
 }
+
+export const createNewStudent = async (values) => {
+    return axios.post(`${API_URL}/students/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+
+export const deleteStudent = async (studentId) => {
+    return axios.delete(`${API_URL}/students/${studentId}/`, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+export const editStudent = async (values) => {
+    return axios.put(`${API_URL}/students/${values.id}/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
 
 export const isUserValid = () => {
     console.log('isUserValid');
