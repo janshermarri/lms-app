@@ -156,6 +156,74 @@ export const editStudent = async (values) => {
         });
 }
 
+export const getComments = async () => {
+    return axios.get(`${API_URL}/comments/`, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            return response.data;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+export const createNewComment = async (values) => {
+    return axios.post(`${API_URL}/comments/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+
+export const deleteComment = async (commentId) => {
+    return axios.delete(`${API_URL}/comments/${commentId}/`, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+export const editComment = async (values) => {
+    return axios.put(`${API_URL}/comments/${values.id}/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
 
 export const isUserValid = () => {
     console.log('isUserValid');
