@@ -88,7 +88,7 @@ const CommentsTable = ({ openDialog, editableCommentValues }) => {
                                                 gutterBottom
                                                 noWrap
                                             >
-                                                1
+                                                {comment.teacher_student_session.id}
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
