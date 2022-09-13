@@ -6,36 +6,49 @@ import { Grid, Container, Button, Typography } from '@mui/material';
 import Footer from '@/components/Footer';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
-import TeachersTable from '@/content/Teachers/TeachersTable';
-import NewTeacherDialog from 'src/content/Teachers/NewTeacher';
+import SessionsTable from '@/content/Sessions/SessionsTable';
+import NewSessionDialog from 'src/content/Sessions/NewSession';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { successToast, errorToast } from 'src/common/utils';
+import NewSessionCommentDialog from 'src/content/Sessions/NewSessionComment';
 
-interface TeacherProps {
-  user: {};
-  address: string;
-  contact: string;
-  qualifications: string;
+interface SessionProps {
+  teacher: {};
+  student: {};
 }
 
 
 function SessionsListing() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [editTeacher, setEditTeacher] = useState<boolean>(false);
-  const [editableTeacherValues, setEditableTeacherValues] = useState<TeacherProps[]>([]);
+  const [openCommentDialog, setOpenCommentDialog] = useState<boolean>(false);
+  const [editSession, setEditSession] = useState<boolean>(false);
+  const [editableSessionValues, setEditableSessionValues] = useState<SessionProps[]>([]);
 
   const handleDialogOpen = (editable: boolean = false) => {
     console.log('handleDialogOpen', editable);
-    setEditTeacher(editable);
+    setEditSession(editable);
     if (!editable) {
-      setEditableTeacherValues([]);
+      setEditableSessionValues([]);
     }
     setOpenDialog(true);
   };
 
   const handleDialogClose = () => {
     setOpenDialog(false);
+  };
+
+  const handleCommentDialogOpen = (editable: boolean = false) => {
+    console.log('handleDialogOpen', editable);
+    setEditSession(editable);
+    if (!editable) {
+      setEditableSessionValues([]);
+    }
+    setOpenCommentDialog(true);
+  };
+
+  const handleCommentDialogClose = () => {
+    setOpenCommentDialog(false);
   };
 
   const handleShowStatus = (status) => {
@@ -50,13 +63,13 @@ function SessionsListing() {
     <>
       <ToastContainer position='bottom-right' theme='dark'/>
       <Head>
-        <title>Teachers</title>
+        <title>Sessions</title>
       </Head>
       <PageTitleWrapper>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-              Teachers
+              Sessions
             </Typography>
           </Grid>
           <Grid item>
@@ -66,7 +79,7 @@ function SessionsListing() {
               startIcon={<AddTwoToneIcon fontSize="small" />}
               onClick={() => handleDialogOpen(false)}
             >
-              Add new teacher
+              Add new session
             </Button>
           </Grid>
         </Grid>
@@ -81,8 +94,10 @@ function SessionsListing() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <TeachersTable openDialog={handleDialogOpen} editableTeacherValues={(values) => setEditableTeacherValues(values)}/>
-            <NewTeacherDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} editable={editTeacher} editableTeacherValues={editableTeacherValues}/>
+            <SessionsTable openDialog={handleDialogOpen} openCommentDialog={handleCommentDialogOpen} editableSessionValues={(values) => setEditableSessionValues(values)}/>
+            <NewSessionDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} editable={editSession} editableSessionValues={editableSessionValues}/>
+            <NewSessionCommentDialog openCommentDialog={openCommentDialog} closeCommentDialog={handleCommentDialogClose} showStatus={handleShowStatus} editableSessionValues={editableSessionValues}/>
+
           </Grid>
         </Grid>
       </Container>

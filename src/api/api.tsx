@@ -224,9 +224,76 @@ export const editComment = async (values) => {
         });
 }
 
+export const getSessions = async () => {
+    return axios.get(`${API_URL}/sessions/`, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            return response.data;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+export const createNewSession = async (values) => {
+    return axios.post(`${API_URL}/sessions/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+
+export const deleteSession = async (sessionId) => {
+    return axios.delete(`${API_URL}/sessions/${sessionId}/`, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+export const editSession = async (values) => {
+    return axios.put(`${API_URL}/sessions/${values.id}/`, values, {
+        headers: { 
+        'Authorization': localStorage.getItem('token'),
+     },
+    }).then(
+        function (response) {
+            console.log("resp", response);
+            return response;
+        }
+    )
+        .catch(function (error) {
+            console.log(error);
+            return error;
+        });
+}
+
+
 
 export const isUserValid = () => {
-    console.log('isUserValid');
-    console.log(localStorage.getItem('token'), localStorage.getItem('token') !== null);
     return localStorage.getItem('token') !== null
 }

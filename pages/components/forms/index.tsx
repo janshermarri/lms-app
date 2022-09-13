@@ -32,7 +32,6 @@ import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
 
 import Switch from '@mui/material/Switch';
-
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const currencies = [

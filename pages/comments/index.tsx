@@ -4,7 +4,6 @@ import SidebarLayout from '@/layouts/SidebarLayout';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import { Grid, Container, Button, Typography } from '@mui/material';
 import Footer from '@/components/Footer';
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import CommentsTable from '@/content/Comments/CommentsTable';
 import NewCommentDialog from 'src/content/Comments/NewComment';
@@ -27,6 +26,7 @@ function CommentsListing() {
     console.log('handleDialogOpen', editable);
     setEditComment(editable);
     if (!editable) {
+      console.log('not editable');
       setEditableCommentValues([]);
     }
     setOpenDialog(true);
@@ -44,6 +44,8 @@ function CommentsListing() {
       errorToast('Error creating a new record, try again!');
     } 
   }
+  console.log('setEditableCommentValues', editableCommentValues);
+
   return (
     <>
       <ToastContainer position='bottom-right' theme='dark'/>
@@ -56,16 +58,6 @@ function CommentsListing() {
             <Typography variant="h3" component="h3" gutterBottom>
             Comments
             </Typography>
-          </Grid>
-          <Grid item>
-            <Button
-              sx={{ mt: { xs: 2, md: 0 } }}
-              variant="contained"
-              startIcon={<AddTwoToneIcon fontSize="small" />}
-              onClick={() => handleDialogOpen(false)}
-            >
-              Add new comment
-            </Button>
           </Grid>
         </Grid>
 

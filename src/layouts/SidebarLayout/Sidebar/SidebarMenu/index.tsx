@@ -297,10 +297,10 @@ function SidebarMenu() {
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
-                <NextLink href="/comments" passHref>
+                <NextLink href="/sessions" passHref>
                   <Button
                     className={
-                      currentRoute === '/comments' ? 'active' : ''
+                      currentRoute === '/sessions' ? 'active' : ''
                     }
                     disableRipple
                     component="a"
