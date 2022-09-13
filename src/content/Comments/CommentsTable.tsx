@@ -19,10 +19,11 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { getComments, deleteComment, isUserValid } from 'src/api/api';
 import { useRouter } from 'next/router';
 import { successToast, errorToast } from 'src/common/utils';
+import { Visibility } from '@mui/icons-material';
 
 
 
-const CommentsTable = ({ openDialog, editableCommentValues }) => {
+const CommentsTable = ({ openDialog, editableCommentValues, setCommentAction }) => {
     const [comments, setComments] = useState<any>([]);
     const router = useRouter();
 
@@ -55,6 +56,14 @@ const CommentsTable = ({ openDialog, editableCommentValues }) => {
     const handleEditComment = (comment) => {
         console.log('Editing comment', comment);
         editableCommentValues(comment);
+        setCommentAction('Edit');
+        openDialog(true);
+    }
+
+    const handleViewComment = (comment) => {
+        console.log('Viewing comment', comment);
+        editableCommentValues(comment);
+        setCommentAction('Read');
         openDialog(true);
     }
 
@@ -69,7 +78,7 @@ const CommentsTable = ({ openDialog, editableCommentValues }) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Session</TableCell>
-                                <TableCell>Comment</TableCell>
+                                <TableCell align="left">Comment</TableCell>
                                 <TableCell align="right">Actions</TableCell>
                             </TableRow>
                         </TableHead>
@@ -88,10 +97,10 @@ const CommentsTable = ({ openDialog, editableCommentValues }) => {
                                                 gutterBottom
                                                 noWrap
                                             >
-                                                {comment.teacher_student_session.id}
+                                                {comment.teacher_student_session.teacher.user.first_name} {comment.teacher_student_session.teacher.user.last_name} teaching {comment.teacher_student_session.student.user.first_name} {comment.teacher_student_session.student.user.last_name}
                                             </Typography>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="left">
                                             <Typography
                                                 variant="body1"
                                                 fontWeight="bold"
@@ -103,6 +112,22 @@ const CommentsTable = ({ openDialog, editableCommentValues }) => {
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="right">
+                                            <Tooltip title="View" arrow>
+                                                <IconButton
+                                                    sx={{
+                                                        '&:hover': {
+                                                            background: theme.colors.primary.lighter
+                                                        },
+                                                        color: theme.palette.primary.main
+                                                    }}
+                                                    color="inherit"
+                                                    size="small"
+                                                    onClick={() => handleViewComment(comment)}
+
+                                                >
+                                                    <Visibility fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
                                             <Tooltip title="Edit" arrow>
                                                 <IconButton
                                                     sx={{

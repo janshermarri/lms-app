@@ -15,7 +15,6 @@ import { useFormik } from 'formik';
 import { createNewComment } from 'src/api/api';
 import 'react-toastify/dist/ReactToastify.css';
 
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 export default function NewSessionComment({ openCommentDialog, closeCommentDialog, showStatus, editableSessionValues }) {

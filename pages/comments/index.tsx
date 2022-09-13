@@ -19,13 +19,11 @@ interface CommentProps {
 
 function CommentsListing() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [editComment, setEditComment] = useState<boolean>(false);
+  const [commentAction, setCommentAction] = useState<string>('Create');
   const [editableCommentValues, setEditableCommentValues] = useState<CommentProps[]>([]);
 
-  const handleDialogOpen = (editable: boolean = false) => {
-    console.log('handleDialogOpen', editable);
-    setEditComment(editable);
-    if (!editable) {
+  const handleDialogOpen = () => {
+    if (commentAction === 'Create') {
       console.log('not editable');
       setEditableCommentValues([]);
     }
@@ -38,17 +36,17 @@ function CommentsListing() {
 
   const handleShowStatus = (status) => {
     if (status === "success") {
-      successToast('Created new record successfully!') 
+      successToast('Created new record successfully!')
     }
     else {
       errorToast('Error creating a new record, try again!');
-    } 
+    }
   }
   console.log('setEditableCommentValues', editableCommentValues);
 
   return (
     <>
-      <ToastContainer position='bottom-right' theme='dark'/>
+      <ToastContainer position='bottom-right' theme='dark' />
       <Head>
         <title>Comments</title>
       </Head>
@@ -56,7 +54,7 @@ function CommentsListing() {
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-            Comments
+              Comments
             </Typography>
           </Grid>
         </Grid>
@@ -71,8 +69,8 @@ function CommentsListing() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <CommentsTable openDialog={handleDialogOpen} editableCommentValues={(values) => setEditableCommentValues(values)}/>
-            <NewCommentDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} editable={editComment} editableCommentValues={editableCommentValues}/>
+            <CommentsTable openDialog={handleDialogOpen} editableCommentValues={(values) => setEditableCommentValues(values)} setCommentAction={(commentAction) => { console.log('SCA', commentAction); setCommentAction(commentAction) }} />
+            <NewCommentDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} commentAction={commentAction} editableCommentValues={editableCommentValues} />
           </Grid>
         </Grid>
       </Container>

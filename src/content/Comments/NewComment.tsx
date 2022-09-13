@@ -10,28 +10,62 @@ import {
     CardContent,
 } from '@mui/material';
 import Box from '@mui/material/Box';
-import { createNewComment, editComment } from 'src/api/api';
+import { editComment } from 'src/api/api';
 import 'react-toastify/dist/ReactToastify.css';
 
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useFormik } from 'formik';
 
 
-export default function NewCommentDialog({ openDialog, closeDialog, showStatus, editable, editableCommentValues }) {
-    const [commentsContent, setCommentsContent] = useState('');
-    useEffect(() => {
-        console.log('editable', editable);
-        if (editable) {
-            setCommentsContent(editableCommentValues);
-        }
-    }, [commentsContent]);
-    console.log('dialog setEditableCommentValues', editableCommentValues);
+export default function NewCommentDialog({ openDialog, closeDialog, showStatus, commentAction, editableCommentValues }) {
     const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
+
+    const formik = useFormik({
+        initialValues: {
+            id: '',
+            comments: '',
+        },
+        enableReinitialize: true,
+        // validationSchema: validationSchema,
+        onSubmit: (values) => {
+            console.log(formik.values.comments);
+            console.log('formik Submit');
+            console.log('values', values);
+        },
+    });
+
+    const submitComment = () => {
+        const formValues = { id: editableCommentValues.id, comments: formik.values.comments };
+        console.log('submitComment', formValues);
+
+        return;
+        if (commentAction === 'Edit') {
+            editComment(formValues).then(resp => {
+                console.log(resp);
+                if (resp.status === 200) {
+                    console.log('closing dialog');
+                    closeDialog();
+                    showStatus('success');
+                }
+                else {
+                    closeDialog();
+                    showStatus('error');
+                }
+
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+    }
+
+    // write all console logs here...
+    console.log('commentAction', commentAction);
+    console.log('commentValues', formik.values.comments);
     return (
         <>
             <div>
                 <Dialog maxWidth={'md'} open={openDialog} onClose={closeDialog}>
-                    <DialogTitle>{editable ? 'Edit Comment' : 'New Comment'}</DialogTitle>
+                    <DialogTitle>{`${commentAction} Comment`}</DialogTitle>
                     <DialogContent>
                         <Grid
                             container
@@ -47,15 +81,22 @@ export default function NewCommentDialog({ openDialog, closeDialog, showStatus, 
                                             sx={{
                                                 '& .MuiTextField-root': { m: 1, width: '25ch' }
                                             }}
+                                            width="700px"
                                         >
                                             <div>
-                                                <ReactQuill theme="snow" value={commentsContent} onChange={setCommentsContent} />
-                                                <DialogActions>
-                                                    <Button onClick={closeDialog}>Cancel</Button>
-                                                    <Button color="primary" type="submit">
-                                                        Submit
-                                                    </Button>
-                                                </DialogActions>
+                                                <form onSubmit={formik.handleSubmit}>
+                                                    <ReactQuill theme="snow"
+                                                        name="comments"
+                                                        id="comments"
+                                                        value={formik.values.comments}
+                                                        onChange={formik.handleChange} readOnly={commentAction === 'Read'} />
+                                                    <DialogActions>
+                                                        <Button onClick={closeDialog}>Cancel</Button>
+                                                        <Button color="primary" type="submit" disabled={commentAction !== 'Edit'}>
+                                                            Submit
+                                                        </Button>
+                                                    </DialogActions>
+                                                </form>
                                             </div>
                                         </Box>
                                     </CardContent>
