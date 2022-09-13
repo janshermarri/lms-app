@@ -8,6 +8,8 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 import StudentsTable from '@/content/Students/StudentsTable';
 import NewStudentDialog from 'src/content/Students/NewStudent';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { successToast, errorToast } from 'src/common/utils';
 
 interface StudentProps {
@@ -46,6 +48,7 @@ function StudentsListing() {
 
   return (
     <>
+      <ToastContainer position='bottom-right' theme='dark'/>
       <Head>
         <title>Students</title>
       </Head>
