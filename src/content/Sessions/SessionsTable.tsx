@@ -22,7 +22,7 @@ import { successToast, errorToast } from 'src/common/utils';
 
 
 
-const SessionsTable = ({ openCommentDialog, editableSessionValues }) => {
+const SessionsTable = ({ openCommentDialog, sessionId }) => {
     const [sessions, setSessions] = useState<any>([]);
     const router = useRouter();
 
@@ -38,7 +38,7 @@ const SessionsTable = ({ openCommentDialog, editableSessionValues }) => {
     const handleDeleteSession = (sessionId) => {
         console.log("deleteSession", sessionId);
         deleteSession(sessionId).then(resp => {
-            if (resp.status === 200) {
+            if (resp.status === 200 || resp.status === 204) {
                 console.log('closing dialog');
                 successToast('Deleted session successfully');
             }
@@ -54,7 +54,7 @@ const SessionsTable = ({ openCommentDialog, editableSessionValues }) => {
 
     const handleAddNewSessionComment = (session) => {
         console.log('Adding new session comment', session);
-        editableSessionValues(session);
+        sessionId(session.id);
         openCommentDialog(true);
     }
 

@@ -14,10 +14,11 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { createNewComment } from 'src/api/api';
 import 'react-toastify/dist/ReactToastify.css';
+import { successToast, errorToast } from 'src/common/utils';
 
 import 'react-quill/dist/quill.snow.css';
 
-export default function NewSessionComment({ openCommentDialog, closeCommentDialog, showStatus, editableSessionValues }) {
+export default function NewSessionComment({ openCommentDialog, closeCommentDialog, sessionId }) {
     const [commentsContent, setCommentsContent] = useState('');
 
     const validationSchema = yup.object({
@@ -36,18 +37,18 @@ export default function NewSessionComment({ openCommentDialog, closeCommentDialo
     });
 
     const submitComment = () => {
-        const formValues = { session_id: editableSessionValues.id, comments: commentsContent };
+        const formValues = { session_id: sessionId, comments: commentsContent };
         console.log('submitComment', formValues);
         createNewComment(formValues).then(resp => {
             console.log(resp);
             if (resp.status === 200) {
                 console.log('closing dialog');
                 closeCommentDialog();
-                showStatus('success');
+                successToast('Created new comment successfully');
             }
             else {
                 closeCommentDialog();
-                showStatus('error');
+                errorToast('Error creating a new comment, try again later.');
             }
 
         }).catch(error => {

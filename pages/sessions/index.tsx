@@ -22,15 +22,9 @@ interface SessionProps {
 function SessionsListing() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [openCommentDialog, setOpenCommentDialog] = useState<boolean>(false);
-  const [editSession, setEditSession] = useState<boolean>(false);
-  const [editableSessionValues, setEditableSessionValues] = useState<SessionProps[]>([]);
+  const [sessionId, setSessionId] = useState<number>();
 
-  const handleDialogOpen = (editable: boolean = false) => {
-    console.log('handleDialogOpen', editable);
-    setEditSession(editable);
-    if (!editable) {
-      setEditableSessionValues([]);
-    }
+  const handleSessionDialogOpen = () => {
     setOpenDialog(true);
   };
 
@@ -39,11 +33,7 @@ function SessionsListing() {
   };
 
   const handleCommentDialogOpen = (editable: boolean = false) => {
-    console.log('handleDialogOpen', editable);
-    setEditSession(editable);
-    if (!editable) {
-      setEditableSessionValues([]);
-    }
+    console.log('handleCommentDialogOpen', editable);
     setOpenCommentDialog(true);
   };
 
@@ -77,7 +67,7 @@ function SessionsListing() {
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
               startIcon={<AddTwoToneIcon fontSize="small" />}
-              onClick={() => handleDialogOpen(false)}
+              onClick={handleSessionDialogOpen}
             >
               Add new session
             </Button>
@@ -94,9 +84,9 @@ function SessionsListing() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <SessionsTable openDialog={handleDialogOpen} openCommentDialog={handleCommentDialogOpen} editableSessionValues={(values) => setEditableSessionValues(values)}/>
-            <NewSessionDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} editable={editSession} editableSessionValues={editableSessionValues}/>
-            <NewSessionCommentDialog openCommentDialog={openCommentDialog} closeCommentDialog={handleCommentDialogClose} showStatus={handleShowStatus} editableSessionValues={editableSessionValues}/>
+            <SessionsTable openCommentDialog={handleCommentDialogOpen} sessionId={(sessionId) => setSessionId(sessionId)}/>
+            <NewSessionDialog openDialog={openDialog} closeDialog={handleDialogClose}/>
+            <NewSessionCommentDialog openCommentDialog={openCommentDialog} closeCommentDialog={handleCommentDialogClose} sessionId={sessionId}/>
 
           </Grid>
         </Grid>

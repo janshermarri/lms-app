@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -14,13 +13,14 @@ import {
 import Box from '@mui/material/Box';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { createNewSession, editSession, getStudents, getTeachers } from 'src/api/api';
+import { createNewSession, getStudents, getTeachers } from 'src/api/api';
 import 'react-toastify/dist/ReactToastify.css';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { successToast, errorToast } from 'src/common/utils';
 
-export default function NewSessionDialog({ openDialog, closeDialog, showStatus, editable, editableSessionValues }) {
+export default function NewSessionDialog({ openDialog, closeDialog}) {
     const [students, setStudents] = useState<any>(false);
     const [teachers, setTeachers] = useState<any>(false);
     const validationSchema = yup.object({
@@ -31,51 +31,28 @@ export default function NewSessionDialog({ openDialog, closeDialog, showStatus, 
     const formik = useFormik({
         initialValues: {
             id: '',
-            teacher: editable ? editableSessionValues.teacher.id : '',
-            student: editable ? editableSessionValues.student.id : '',
+            teacher: '',
+            student: '',
         },
         enableReinitialize: true,
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            console.log(values);
-            if (editable) {
-                values.id = editableSessionValues.id;
-                editSession(values).then(resp => {
-                    console.log(resp);
-                    if (resp.status === 200) {
-                        console.log('closing dialog');
-                        closeDialog();
-                        showStatus('success');
-                    }
-                    else {
-                        closeDialog();
-                        showStatus('error');
-                    }
+            const formValues = { student_id: values.student, teacher_id: values.teacher };
+            createNewSession(formValues).then(resp => {
+                console.log(resp);
+                if (resp.status === 200) {
+                    console.log('closing dialog');
+                    closeDialog();
+                    successToast('Created new session successfully.');
+                }
+                else {
+                    closeDialog();
+                    errorToast('Error creating a new session, try again later.');
+                }
 
-                }).catch(error => {
-                    console.log(error);
-                })
-
-            }
-            else {
-                const formValues = {student_id : values.student, teacher_id: values.teacher};
-                createNewSession(formValues).then(resp => {
-                    console.log(resp);
-                    if (resp.status === 200) {
-                        console.log('closing dialog');
-                        closeDialog();
-                        showStatus('success');
-                    }
-                    else {
-                        closeDialog();
-                        showStatus('error');
-                    }
-
-                }).catch(error => {
-                    console.log(error);
-                })
-
-            }
+            }).catch(error => {
+                console.log(error);
+            })
         },
     });
 
@@ -97,7 +74,7 @@ export default function NewSessionDialog({ openDialog, closeDialog, showStatus, 
         <>
             <div>
                 <Dialog maxWidth={'md'} open={openDialog} onClose={closeDialog}>
-                    <DialogTitle>{editable ? 'Edit Session' : 'New Session'}</DialogTitle>
+                    <DialogTitle>New Session</DialogTitle>
                     <DialogContent>
                         <Grid
                             container
