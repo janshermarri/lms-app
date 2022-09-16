@@ -1,28 +1,20 @@
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router'
 
-import NextLink from 'next/link';
-
 import {
   Avatar,
   Box,
   Button,
-  Divider,
   Hidden,
   lighten,
-  List,
-  ListItem,
-  ListItemText,
   Popover,
   Typography
 } from '@mui/material';
 
-import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
 import { styled } from '@mui/material/styles';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
-import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import { getUserInfo } from '@/common/utils';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -60,10 +52,11 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
+  const userInfo: any = getUserInfo();
   const user = {
-    name: 'Admin',
+    name: userInfo.firstName,
     avatar: '/static/images/avatars/3.jpg',
-    jobtitle: 'Administrator',
+    jobtitle: userInfo.group,
   };
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
