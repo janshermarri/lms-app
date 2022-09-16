@@ -53,7 +53,6 @@ const UserBoxDescription = styled(Typography)(
 
 function HeaderUserbox() {
   const userInfo: any = getUserInfo();
-  console.log(userInfo);
   const user = {
     name: userInfo.firstName,
     avatar: '/static/images/avatars/3.jpg',

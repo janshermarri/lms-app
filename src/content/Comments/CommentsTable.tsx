@@ -28,6 +28,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { getUserInfo } from '@/common/utils';
 
 import { editComment } from 'src/api/api';
 import 'react-toastify/dist/ReactToastify.css';
@@ -43,14 +44,17 @@ const CommentsTable = () => {
     const [openCommentDialog, setOpenCommentDialog] = useState<boolean>(false);
     const [commentOperation, setCommentOperation] = useState<string>('Read');
     const router = useRouter();
-
+    const userInfo: any = getUserInfo();
     useEffect(() => {
         if (!isUserValid()) {
             router.push('/login');
         }
         getComments().then((data) => {
-            setComments(data);
-        })
+            setComments(data.records);
+        }).catch((err) => {
+            errorToast('Error retrieving comments, try again later.');
+            console.log(err);
+        });
     }, []);
 
     const handleDeleteComment = (commentId) => {
@@ -111,7 +115,6 @@ const CommentsTable = () => {
 
     const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
 
-
     const theme = useTheme();
     return (
         <>
@@ -122,6 +125,7 @@ const CommentsTable = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Session</TableCell>
+                                <TableCell>Created By</TableCell>
                                 <TableCell align="left">Comment</TableCell>
                                 <TableCell align="right">Actions</TableCell>
                             </TableRow>
@@ -142,6 +146,17 @@ const CommentsTable = () => {
                                                 noWrap
                                             >
                                                 {comment.teacher_student_session.teacher.user.first_name} {comment.teacher_student_session.teacher.user.last_name} teaching {comment.teacher_student_session.student.user.first_name} {comment.teacher_student_session.student.user.last_name}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography
+                                                variant="body1"
+                                                fontWeight="bold"
+                                                color="text.primary"
+                                                gutterBottom
+                                                noWrap
+                                            >
+                                                {comment.created_by.first_name} {comment.created_by.last_name}
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="left">
@@ -188,20 +203,22 @@ const CommentsTable = () => {
                                                     <EditTwoToneIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
-                                            <Tooltip title="Delete" arrow>
-                                                <IconButton
-                                                    sx={{
-                                                        '&:hover': { background: theme.colors.error.lighter },
-                                                        color: theme.palette.error.main
-                                                    }}
-                                                    color="inherit"
-                                                    size="small"
-                                                    onClick={() => handleDeleteComment(comment.id)}
+                                            {(parseInt(userInfo.id) === comment.created_by.id || userInfo.group === 'admin') &&
+                                                <Tooltip title="Delete" arrow>
+                                                    <IconButton
+                                                        sx={{
+                                                            '&:hover': { background: theme.colors.error.lighter },
+                                                            color: theme.palette.error.main
+                                                        }}
+                                                        color="inherit"
+                                                        size="small"
+                                                        onClick={() => handleDeleteComment(comment.id)}
 
-                                                >
-                                                    <DeleteTwoToneIcon fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    >
+                                                        <DeleteTwoToneIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            }
                                         </TableCell>
 
                                     </TableRow>

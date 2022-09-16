@@ -26,8 +26,9 @@ export const getJWTClaims = () => {
 export const getUserInfo = () => {
     const userInfo = {
         firstName: getCookie('user_first_name') ?  getCookie('user_first_name') : 'User',
-        lastName: getCookie('user_las_name') ?  getCookie('user_first_name') : 'User',
+        lastName: getCookie('user_last_name') ?  getCookie('user_last_name') : 'User',
         group: getCookie('user_group') ?  getCookie('user_group') : 'User',
+        id: getCookie('user_id') ?  getCookie('user_id') : 99999,
     }
     return userInfo;
 }

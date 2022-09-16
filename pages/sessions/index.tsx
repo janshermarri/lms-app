@@ -45,15 +45,15 @@ function SessionsListing() {
 
   const handleShowStatus = (status) => {
     if (status === "success") {
-      successToast('Created new record successfully!') 
+      successToast('Created new record successfully!')
     }
     else {
       errorToast('Error creating a new record, try again!');
-    } 
+    }
   }
   return (
     <>
-      <ToastContainer position='bottom-right' theme='dark'/>
+      <ToastContainer position='bottom-right' theme='dark' />
       <Head>
         <title>Sessions</title>
       </Head>
@@ -64,18 +64,18 @@ function SessionsListing() {
               Sessions
             </Typography>
           </Grid>
-        {userInfo.group === 'admin' &&
-          <Grid item>
-            <Button
-              sx={{ mt: { xs: 2, md: 0 } }}
-              variant="contained"
-              startIcon={<AddTwoToneIcon fontSize="small" />}
-              onClick={handleSessionDialogOpen}
-            >
-              Add new session
-            </Button>
-          </Grid>
-}
+          {userInfo.group === 'admin' &&
+            <Grid item>
+              <Button
+                sx={{ mt: { xs: 2, md: 0 } }}
+                variant="contained"
+                startIcon={<AddTwoToneIcon fontSize="small" />}
+                onClick={handleSessionDialogOpen}
+              >
+                Add new session
+              </Button>
+            </Grid>
+          }
         </Grid>
 
       </PageTitleWrapper>
@@ -88,9 +88,11 @@ function SessionsListing() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <SessionsTable openCommentDialog={handleCommentDialogOpen} sessionId={(sessionId) => setSessionId(sessionId)}/>
-            <NewSessionDialog openDialog={openDialog} closeDialog={handleDialogClose}/>
-            <NewSessionCommentDialog openCommentDialog={openCommentDialog} closeCommentDialog={handleCommentDialogClose} sessionId={sessionId}/>
+            <SessionsTable openCommentDialog={handleCommentDialogOpen} sessionId={(sessionId) => setSessionId(sessionId)} />
+            {userInfo.group === 'admin' &&
+              <NewSessionDialog openDialog={openDialog} closeDialog={handleDialogClose} />
+            }
+            <NewSessionCommentDialog openCommentDialog={openCommentDialog} closeCommentDialog={handleCommentDialogClose} sessionId={sessionId} />
 
           </Grid>
         </Grid>

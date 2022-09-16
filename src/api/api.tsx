@@ -10,6 +10,7 @@ const setUserInfo = () => {
     setCookie('user_first_name', jwtClaims.first_name);
     setCookie('user_last_name', jwtClaims.last_name);
     setCookie('user_group', jwtClaims.group);
+    setCookie('user_id', jwtClaims.user_id);
 }
 
 export const login = async (username: string, password: string) => {

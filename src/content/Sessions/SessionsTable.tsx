@@ -32,7 +32,7 @@ const SessionsTable = ({ openCommentDialog, sessionId }) => {
             router.push('/login');
         }
         getSessions().then((data) => {
-            setSessions(data);
+            setSessions(data.records);
         })
     }, []);
 
