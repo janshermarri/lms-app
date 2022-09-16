@@ -152,7 +152,7 @@ const CommentsTable = () => {
                                                 gutterBottom
                                                 noWrap
                                             >
-                                                {comment.comments}
+                                                {comment.comments.substring(0, 60)}...
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="right">
