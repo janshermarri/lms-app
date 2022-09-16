@@ -88,7 +88,7 @@ const CommentsTable = () => {
         setOpenCommentDialog(false);
     }
 
-    const handleCommentSubmit = (e) => {
+    const handleCommentSubmit = () => {
         console.log('comment submit');
         console.log(editableCommentId, editableComments);
         const formValues = { id: editableCommentId, comments: editableComments }
