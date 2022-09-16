@@ -1,14 +1,15 @@
 import axios from 'axios';
 import { getJWTClaims } from '@/common/utils';
+import { setCookie } from 'cookies-next';
 
 const API_URL = 'https://lms-main.herokuapp.com/api';
 // const API_URL = 'http://localhost:8000/api';
 
 const setUserInfo = () => {
     const jwtClaims: any = getJWTClaims();
-    localStorage.setItem('user_first_name', jwtClaims.first_name);
-    localStorage.setItem('user_last_name', jwtClaims.last_name);
-    localStorage.setItem('user_group', jwtClaims.group);
+    setCookie('user_first_name', jwtClaims.first_name);
+    setCookie('user_last_name', jwtClaims.last_name);
+    setCookie('user_group', jwtClaims.group);
 }
 
 export const login = async (username: string, password: string) => {
