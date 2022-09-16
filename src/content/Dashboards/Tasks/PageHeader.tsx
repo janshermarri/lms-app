@@ -50,7 +50,7 @@ function PageHeader() {
       <Box display="flex" alignItems="center">
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
-            Welcome to the LMS!
+            Welcome to the LMS
           </Typography>
         </Box>
       </Box>
