@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { successToast, errorToast } from 'src/common/utils';
 import NewSessionCommentDialog from 'src/content/Sessions/NewSessionComment';
+import { getUserInfo } from '@/common/utils';
 
 interface SessionProps {
   teacher: {};
@@ -23,6 +24,7 @@ function SessionsListing() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [openCommentDialog, setOpenCommentDialog] = useState<boolean>(false);
   const [sessionId, setSessionId] = useState<number>();
+  const userInfo: any = getUserInfo();
 
   const handleSessionDialogOpen = () => {
     setOpenDialog(true);
@@ -62,6 +64,7 @@ function SessionsListing() {
               Sessions
             </Typography>
           </Grid>
+        {userInfo.group === 'admin' &&
           <Grid item>
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
@@ -72,6 +75,7 @@ function SessionsListing() {
               Add new session
             </Button>
           </Grid>
+}
         </Grid>
 
       </PageTitleWrapper>

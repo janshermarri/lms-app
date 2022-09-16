@@ -18,13 +18,14 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { getSessions, deleteSession, isUserValid } from 'src/api/api';
 import { useRouter } from 'next/router';
-import { successToast, errorToast } from 'src/common/utils';
+import { successToast, errorToast, getUserInfo } from 'src/common/utils';
 
 
 
 const SessionsTable = ({ openCommentDialog, sessionId }) => {
     const [sessions, setSessions] = useState<any>([]);
     const router = useRouter();
+    const userInfo: any = getUserInfo();
 
     useEffect(() => {
         if (!isUserValid()) {
@@ -119,20 +120,22 @@ const SessionsTable = ({ openCommentDialog, sessionId }) => {
                                                     <AddTwoToneIcon fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
-                                            <Tooltip title="Delete" arrow>
-                                                <IconButton
-                                                    sx={{
-                                                        '&:hover': { background: theme.colors.error.lighter },
-                                                        color: theme.palette.error.main
-                                                    }}
-                                                    color="inherit"
-                                                    size="small"
-                                                    onClick={() => handleDeleteSession(session.id)}
+                                            {userInfo.group === 'admin' &&
+                                                <Tooltip title="Delete" arrow>
+                                                    <IconButton
+                                                        sx={{
+                                                            '&:hover': { background: theme.colors.error.lighter },
+                                                            color: theme.palette.error.main
+                                                        }}
+                                                        color="inherit"
+                                                        size="small"
+                                                        onClick={() => handleDeleteSession(session.id)}
 
-                                                >
-                                                    <DeleteTwoToneIcon fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    >
+                                                        <DeleteTwoToneIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            }
                                         </TableCell>
 
                                     </TableRow>

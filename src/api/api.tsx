@@ -2,8 +2,8 @@ import axios from 'axios';
 import { getJWTClaims } from '@/common/utils';
 import { setCookie } from 'cookies-next';
 
-const API_URL = 'https://lms-main.herokuapp.com/api';
-// const API_URL = 'http://localhost:8000/api';
+// const API_URL = 'https://lms-main.herokuapp.com/api';
+const API_URL = 'http://localhost:8000/api';
 
 const setUserInfo = () => {
     const jwtClaims: any = getJWTClaims();
