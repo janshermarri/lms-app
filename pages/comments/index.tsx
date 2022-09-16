@@ -6,7 +6,6 @@ import { Grid, Container, Button, Typography } from '@mui/material';
 import Footer from '@/components/Footer';
 
 import CommentsTable from '@/content/Comments/CommentsTable';
-import NewCommentDialog from 'src/content/Comments/NewComment';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { successToast, errorToast } from 'src/common/utils';
@@ -18,32 +17,6 @@ interface CommentProps {
 
 
 function CommentsListing() {
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [commentAction, setCommentAction] = useState<string>('Create');
-  const [editableCommentValues, setEditableCommentValues] = useState<CommentProps[]>([]);
-
-  const handleDialogOpen = () => {
-    if (commentAction === 'Create') {
-      console.log('not editable');
-      setEditableCommentValues([]);
-    }
-    setOpenDialog(true);
-  };
-
-  const handleDialogClose = () => {
-    setOpenDialog(false);
-  };
-
-  const handleShowStatus = (status) => {
-    if (status === "success") {
-      successToast('Created new record successfully!')
-    }
-    else {
-      errorToast('Error creating a new record, try again!');
-    }
-  }
-  console.log('setEditableCommentValues', editableCommentValues);
-
   return (
     <>
       <ToastContainer position='bottom-right' theme='dark' />
@@ -69,8 +42,7 @@ function CommentsListing() {
           spacing={3}
         >
           <Grid item xs={12}>
-            <CommentsTable openDialog={handleDialogOpen} editableCommentValues={(values) => setEditableCommentValues(values)} setCommentAction={(commentAction) => { console.log('SCA', commentAction); setCommentAction(commentAction) }} />
-            <NewCommentDialog openDialog={openDialog} closeDialog={handleDialogClose} showStatus={handleShowStatus} commentAction={commentAction} editableCommentValues={editableCommentValues} />
+            <CommentsTable />
           </Grid>
         </Grid>
       </Container>

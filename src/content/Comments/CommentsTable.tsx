@@ -11,6 +11,10 @@ import {
     TableRow,
     TableContainer,
     Typography,
+    Grid,
+    CardContent,
+    Box,
+    Button,
     useTheme,
 } from '@mui/material';
 
@@ -20,11 +24,24 @@ import { getComments, deleteComment, isUserValid } from 'src/api/api';
 import { useRouter } from 'next/router';
 import { successToast, errorToast } from 'src/common/utils';
 import { Visibility } from '@mui/icons-material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+
+import { editComment } from 'src/api/api';
+import 'react-toastify/dist/ReactToastify.css';
+
+import 'react-quill/dist/quill.snow.css';
 
 
 
-const CommentsTable = ({ openDialog, editableCommentValues, setCommentAction }) => {
+const CommentsTable = () => {
     const [comments, setComments] = useState<any>([]);
+    const [editableComments, setEditableComments] = useState<any>([]);
+    const [editableCommentId, setEditableCommentId] = useState<any>([]);
+    const [openCommentDialog, setOpenCommentDialog] = useState<boolean>(false);
+    const [commentOperation, setCommentOperation] = useState<string>('Read');
     const router = useRouter();
 
     useEffect(() => {
@@ -39,7 +56,7 @@ const CommentsTable = ({ openDialog, editableCommentValues, setCommentAction }) 
     const handleDeleteComment = (commentId) => {
         console.log("deleteComment", commentId);
         deleteComment(commentId).then(resp => {
-            if (resp.status === 200) {
+            if (resp.status === 200 || resp.status === 204) {
                 console.log('closing dialog');
                 successToast('Deleted comment successfully');
             }
@@ -55,17 +72,44 @@ const CommentsTable = ({ openDialog, editableCommentValues, setCommentAction }) 
 
     const handleEditComment = (comment) => {
         console.log('Editing comment', comment);
-        editableCommentValues(comment);
-        setCommentAction('Edit');
-        openDialog(true);
+        setEditableComments(comment.comments);
+        setEditableCommentId(comment.id);
+        setCommentOperation('Edit');
+        setOpenCommentDialog(true);
     }
 
     const handleViewComment = (comment) => {
         console.log('Viewing comment', comment);
-        editableCommentValues(comment);
-        setCommentAction('Read');
-        openDialog(true);
+        setCommentOperation('Read');
+        setOpenCommentDialog(true);
     }
+
+    const handleCloseCommentDialog = () => {
+        setOpenCommentDialog(false);
+    }
+
+    const handleCommentSubmit = (e) => {
+        console.log('comment submit');
+        console.log(editableCommentId, editableComments);
+        const formValues = { id: editableCommentId, comments: editableComments }
+        editComment(formValues).then(resp => {
+            console.log(resp);
+            if (resp.status === 200) {
+                handleCloseCommentDialog();
+                successToast('Edited comment successfully');
+            }
+            else {
+                handleCloseCommentDialog();
+                errorToast('Error editing comment, try again!');
+            }
+
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+
+    const ReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
 
 
     const theme = useTheme();
@@ -167,6 +211,47 @@ const CommentsTable = ({ openDialog, editableCommentValues, setCommentAction }) 
                     </Table>
                 </TableContainer>
             </Card>
+            <div>
+                <Dialog maxWidth={'md'} open={openCommentDialog} onClose={handleCloseCommentDialog}>
+                    <DialogTitle>{`${commentOperation} Comment`}</DialogTitle>
+                    <DialogContent>
+                        <Grid
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="stretch"
+                            spacing={3}
+                        >
+                            <Grid item xs={12}>
+                                <Card>
+                                    <CardContent>
+                                        <Box
+                                            sx={{
+                                                '& .MuiTextField-root': { m: 1, width: '25ch' }
+                                            }}
+                                            width="700px"
+                                        >
+                                            <div>
+                                                <ReactQuill theme="snow"
+                                                    name="comments"
+                                                    id="comments"
+                                                    value={editableComments}
+                                                    onChange={setEditableComments} readOnly={commentOperation === 'Read'} />
+                                                <DialogActions>
+                                                    <Button onClick={handleCloseCommentDialog}>Cancel</Button>
+                                                    <Button color="primary" type="submit" onClick={handleCommentSubmit} disabled={commentOperation !== 'Edit'}>
+                                                        Submit
+                                                    </Button>
+                                                </DialogActions>
+                                            </div>
+                                        </Box>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+                </Dialog>
+            </div>
         </>
     );
 };
