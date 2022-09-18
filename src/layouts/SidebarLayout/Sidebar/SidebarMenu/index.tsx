@@ -30,7 +30,7 @@ const MenuWrapper = styled(Box)(
     .MuiListSubheader-root {
       text-transform: uppercase;
       font-weight: bold;
-      font-size: ${theme.typography.pxToRem(12)};
+      font-size: ${theme.typography.pxToRem(16)};
       color: ${theme.colors.alpha.trueWhite[50]};
       padding: ${theme.spacing(0, 2.5)};
       line-height: 1.4;
@@ -78,7 +78,7 @@ const SubMenuWrapper = styled(Box)(
 
           .MuiButton-startIcon {
             color: ${theme.colors.alpha.trueWhite[30]};
-            font-size: ${theme.typography.pxToRem(20)};
+            font-size: ${theme.typography.pxToRem(30)};
             margin-right: ${theme.spacing(1)};
           }
           
