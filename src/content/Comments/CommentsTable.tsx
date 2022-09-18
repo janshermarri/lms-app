@@ -187,22 +187,24 @@ const CommentsTable = () => {
                                                     <Visibility fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
-                                            <Tooltip title="Edit" arrow>
-                                                <IconButton
-                                                    sx={{
-                                                        '&:hover': {
-                                                            background: theme.colors.primary.lighter
-                                                        },
-                                                        color: theme.palette.primary.main
-                                                    }}
-                                                    color="inherit"
-                                                    size="small"
-                                                    onClick={() => handleEditComment(comment)}
+                                            {(parseInt(userInfo.id) === comment.created_by.id || userInfo.group === 'admin') &&
+                                                <Tooltip title="Edit" arrow>
+                                                    <IconButton
+                                                        sx={{
+                                                            '&:hover': {
+                                                                background: theme.colors.primary.lighter
+                                                            },
+                                                            color: theme.palette.primary.main
+                                                        }}
+                                                        color="inherit"
+                                                        size="small"
+                                                        onClick={() => handleEditComment(comment)}
 
-                                                >
-                                                    <EditTwoToneIcon fontSize="small" />
-                                                </IconButton>
-                                            </Tooltip>
+                                                    >
+                                                        <EditTwoToneIcon fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            }
                                             {(parseInt(userInfo.id) === comment.created_by.id || userInfo.group === 'admin') &&
                                                 <Tooltip title="Delete" arrow>
                                                     <IconButton
